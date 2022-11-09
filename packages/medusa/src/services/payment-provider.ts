@@ -16,6 +16,7 @@ import {
   PaymentSessionStatus,
   Refund,
 } from "../models"
+import { PaymentProviderDataInput } from "../types/payment-collection"
 
 type PaymentProviderKey = `pp_${string}` | "systemPaymentProviderService"
 type InjectedDependencies = {
@@ -26,7 +27,7 @@ type InjectedDependencies = {
   refundRepository: typeof RefundRepository
 } & {
   [key in `${PaymentProviderKey}`]:
-    | AbstractPaymentService<never>
+    | AbstractPaymentService
     | typeof BasePaymentService
 }
 
@@ -38,6 +39,7 @@ export default class PaymentProviderService extends TransactionBaseService {
   protected transactionManager_: EntityManager | undefined
   protected readonly container_: InjectedDependencies
   protected readonly paymentSessionRepository_: typeof PaymentSessionRepository
+  // eslint-disable-next-line max-len
   protected readonly paymentProviderRepository_: typeof PaymentProviderRepository
   protected readonly paymentRepository_: typeof PaymentRepository
   protected readonly refundRepository_: typeof RefundRepository
@@ -178,6 +180,33 @@ export default class PaymentProviderService extends TransactionBaseService {
     })
   }
 
+  async createSessionNew(
+    sessionInput: PaymentProviderDataInput
+  ): Promise<PaymentSession> {
+    return await this.atomicPhase_(async (transactionManager) => {
+      const provider: AbstractPaymentService = this.retrieveProvider(
+        sessionInput.provider_id
+      )
+      const sessionData = await provider
+        .withTransaction(transactionManager)
+        .createPaymentNew(sessionInput)
+
+      const sessionRepo = transactionManager.getCustomRepository(
+        this.paymentSessionRepository_
+      )
+
+      const toCreate = {
+        provider_id: sessionInput.provider_id,
+        data: sessionData,
+        status: "pending",
+        amount: sessionInput.amount,
+      } as PaymentSession
+
+      const created = sessionRepo.create(toCreate)
+      return await sessionRepo.save(created)
+    })
+  }
+
   /**
    * Refreshes a payment session with the given provider.
    * This means, that we delete the current one and create a new.
@@ -218,6 +247,26 @@ export default class PaymentProviderService extends TransactionBaseService {
     })
   }
 
+  async refreshSessionNew(
+    paymentSession: PaymentSession,
+    sessionInput: PaymentProviderDataInput
+  ): Promise<PaymentSession> {
+    return this.atomicPhase_(async (transactionManager) => {
+      const session = await this.retrieveSession(paymentSession.id)
+      const provider = this.retrieveProvider(paymentSession.provider_id)
+
+      await provider.withTransaction(transactionManager).deletePayment(session)
+
+      const sessionRepo = transactionManager.getCustomRepository(
+        this.paymentSessionRepository_
+      )
+
+      await sessionRepo.remove(session)
+
+      return await this.createSessionNew(sessionInput)
+    })
+  }
+
   /**
    * Updates an existing payment session.
    * @param paymentSession - the payment session object to
@@ -239,7 +288,29 @@ export default class PaymentProviderService extends TransactionBaseService {
       const sessionRepo = transactionManager.getCustomRepository(
         this.paymentSessionRepository_
       )
-      return sessionRepo.save(session)
+      return await sessionRepo.save(session)
+    })
+  }
+
+  async updateSessionNew(
+    paymentSession: PaymentSession,
+    sessionInput: PaymentProviderDataInput
+  ): Promise<PaymentSession> {
+    return await this.atomicPhase_(async (transactionManager) => {
+      const session = await this.retrieveSession(paymentSession.id)
+      const provider = this.retrieveProvider(paymentSession.provider_id)
+
+      session.amount = sessionInput.amount
+      paymentSession.data.amount = sessionInput.amount
+      session.data = await provider
+        .withTransaction(transactionManager)
+        .updatePaymentNew(paymentSession.data, sessionInput)
+
+      const sessionRepo = transactionManager.getCustomRepository(
+        this.paymentSessionRepository_
+      )
+
+      return await sessionRepo.save(session)
     })
   }
 
@@ -264,7 +335,7 @@ export default class PaymentProviderService extends TransactionBaseService {
         this.paymentSessionRepository_
       )
 
-      return sessionRepo.remove(session)
+      return await sessionRepo.remove(session)
     })
   }
 
@@ -274,11 +345,11 @@ export default class PaymentProviderService extends TransactionBaseService {
    * @return {PaymentService} the payment provider
    */
   retrieveProvider<
-    TProvider extends AbstractPaymentService<never> | typeof BasePaymentService
+    TProvider extends AbstractPaymentService | typeof BasePaymentService
   >(
     providerId: string
-  ): TProvider extends AbstractPaymentService<never>
-    ? AbstractPaymentService<never>
+  ): TProvider extends AbstractPaymentService
+    ? AbstractPaymentService
     : typeof BasePaymentService {
     try {
       let provider
@@ -320,7 +391,34 @@ export default class PaymentProviderService extends TransactionBaseService {
         cart_id: cart.id,
       })
 
-      return paymentRepo.save(created)
+      return await paymentRepo.save(created)
+    })
+  }
+
+  async createPaymentNew(
+    paymentInput: Omit<PaymentProviderDataInput, "customer">
+  ): Promise<Payment> {
+    return await this.atomicPhase_(async (transactionManager) => {
+      const { payment_session, currency_code, amount, provider_id } =
+        paymentInput
+
+      const provider = this.retrieveProvider(provider_id)
+      const paymentData = await provider
+        .withTransaction(transactionManager)
+        .getPaymentData(payment_session)
+
+      const paymentRepo = transactionManager.getCustomRepository(
+        this.paymentRepository_
+      )
+
+      const created = paymentRepo.create({
+        provider_id,
+        amount,
+        currency_code,
+        data: paymentData,
+      })
+
+      return await paymentRepo.save(created)
     })
   }
 
@@ -342,7 +440,7 @@ export default class PaymentProviderService extends TransactionBaseService {
       const payRepo = transactionManager.getCustomRepository(
         this.paymentRepository_
       )
-      return payRepo.save(payment)
+      return await payRepo.save(payment)
     })
   }
 
@@ -370,7 +468,7 @@ export default class PaymentProviderService extends TransactionBaseService {
       const sessionRepo = transactionManager.getCustomRepository(
         this.paymentSessionRepository_
       )
-      return sessionRepo.save(session)
+      return await sessionRepo.save(session)
     })
   }
 
@@ -391,7 +489,7 @@ export default class PaymentProviderService extends TransactionBaseService {
       const sessionRepo = transactionManager.getCustomRepository(
         this.paymentSessionRepository_
       )
-      return sessionRepo.save(session)
+      return await sessionRepo.save(session)
     })
   }
 
@@ -436,7 +534,7 @@ export default class PaymentProviderService extends TransactionBaseService {
       const paymentRepo = transactionManager.getCustomRepository(
         this.paymentRepository_
       )
-      return paymentRepo.save(payment)
+      return await paymentRepo.save(payment)
     })
   }
 
@@ -520,7 +618,47 @@ export default class PaymentProviderService extends TransactionBaseService {
       }
 
       const created = refundRepo.create(toCreate)
-      return refundRepo.save(created)
+      return await refundRepo.save(created)
+    })
+  }
+
+  async refundFromPayment(
+    payment: Payment,
+    amount: number,
+    reason: string,
+    note?: string
+  ): Promise<Refund> {
+    return await this.atomicPhase_(async (manager) => {
+      const refundable = payment.amount - payment.amount_refunded
+
+      if (refundable < amount) {
+        throw new MedusaError(
+          MedusaError.Types.NOT_ALLOWED,
+          "Refund amount is higher that the refundable amount"
+        )
+      }
+
+      const provider = this.retrieveProvider(payment.provider_id)
+      payment.data = await provider
+        .withTransaction(manager)
+        .refundPayment(payment, amount)
+
+      payment.amount_refunded += amount
+
+      const paymentRepo = manager.getCustomRepository(this.paymentRepository_)
+      await paymentRepo.save(payment)
+
+      const refundRepo = manager.getCustomRepository(this.refundRepository_)
+
+      const toCreate = {
+        payment_id: payment.id,
+        amount,
+        reason,
+        note,
+      }
+
+      const created = refundRepo.create(toCreate)
+      return await refundRepo.save(created)
     })
   }
 

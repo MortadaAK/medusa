@@ -26,7 +26,7 @@ TransactionBaseService.constructor
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:40](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L40)
+[packages/medusa/src/services/user.ts:47](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L47)
 
 ## Properties
 
@@ -40,7 +40,7 @@ TransactionBaseService.\_\_configModule\_\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:10](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L10)
+[packages/medusa/src/interfaces/transaction-base-service.ts:10](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/interfaces/transaction-base-service.ts#L10)
 
 ___
 
@@ -54,7 +54,17 @@ TransactionBaseService.\_\_container\_\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:9](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L9)
+[packages/medusa/src/interfaces/transaction-base-service.ts:9](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/interfaces/transaction-base-service.ts#L9)
+
+___
+
+### analyticsConfigService\_
+
+• `Protected` `Readonly` **analyticsConfigService\_**: [`AnalyticsConfigService`](AnalyticsConfigService.md)
+
+#### Defined in
+
+[packages/medusa/src/services/user.ts:42](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L42)
 
 ___
 
@@ -64,7 +74,17 @@ ___
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:38](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L38)
+[packages/medusa/src/services/user.ts:44](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L44)
+
+___
+
+### featureFlagRouter\_
+
+• `Protected` `Readonly` **featureFlagRouter\_**: `FlagRouter`
+
+#### Defined in
+
+[packages/medusa/src/services/user.ts:45](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L45)
 
 ___
 
@@ -78,7 +98,7 @@ TransactionBaseService.manager\_
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:35](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L35)
+[packages/medusa/src/services/user.ts:40](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L40)
 
 ___
 
@@ -92,7 +112,7 @@ TransactionBaseService.transactionManager\_
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:36](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L36)
+[packages/medusa/src/services/user.ts:41](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L41)
 
 ___
 
@@ -102,7 +122,7 @@ ___
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:37](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L37)
+[packages/medusa/src/services/user.ts:43](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L43)
 
 ___
 
@@ -121,7 +141,7 @@ ___
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:28](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L28)
+[packages/medusa/src/services/user.ts:33](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L33)
 
 ## Methods
 
@@ -160,7 +180,7 @@ TransactionBaseService.atomicPhase\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:50](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L50)
+[packages/medusa/src/interfaces/transaction-base-service.ts:50](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/interfaces/transaction-base-service.ts#L50)
 
 ___
 
@@ -186,7 +206,7 @@ the result of create
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:174](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L174)
+[packages/medusa/src/services/user.ts:172](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L172)
 
 ___
 
@@ -210,7 +230,7 @@ the result of the delete operation.
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:254](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L254)
+[packages/medusa/src/services/user.ts:252](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L252)
 
 ___
 
@@ -238,7 +258,7 @@ the generated JSON web token
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:310](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L310)
+[packages/medusa/src/services/user.ts:314](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L314)
 
 ___
 
@@ -262,7 +282,7 @@ hashed password
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:162](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L162)
+[packages/medusa/src/services/user.ts:160](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L160)
 
 ___
 
@@ -285,7 +305,7 @@ the result of the find operation
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:71](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L71)
+[packages/medusa/src/services/user.ts:69](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L69)
 
 ___
 
@@ -311,7 +331,7 @@ the user document.
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:84](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L84)
+[packages/medusa/src/services/user.ts:82](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L82)
 
 ___
 
@@ -337,7 +357,7 @@ the user document.
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:108](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L108)
+[packages/medusa/src/services/user.ts:106](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L106)
 
 ___
 
@@ -363,7 +383,7 @@ the user document.
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:137](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L137)
+[packages/medusa/src/services/user.ts:135](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L135)
 
 ___
 
@@ -390,7 +410,7 @@ the result of the update operation
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:281](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L281)
+[packages/medusa/src/services/user.ts:285](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L285)
 
 ___
 
@@ -414,7 +434,7 @@ TransactionBaseService.shouldRetryTransaction\_
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:31](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L31)
+[packages/medusa/src/interfaces/transaction-base-service.ts:31](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/interfaces/transaction-base-service.ts#L31)
 
 ___
 
@@ -439,31 +459,7 @@ the result of create
 
 #### Defined in
 
-[packages/medusa/src/services/user.ts:208](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L208)
-
-___
-
-### validateEmail\_
-
-▸ **validateEmail_**(`email`): `string`
-
-Used to validate user email.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `email` | `string` | email to validate |
-
-#### Returns
-
-`string`
-
-the validated email
-
-#### Defined in
-
-[packages/medusa/src/services/user.ts:53](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/services/user.ts#L53)
+[packages/medusa/src/services/user.ts:206](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/services/user.ts#L206)
 
 ___
 
@@ -487,4 +483,4 @@ TransactionBaseService.withTransaction
 
 #### Defined in
 
-[packages/medusa/src/interfaces/transaction-base-service.ts:13](https://github.com/medusajs/medusa/blob/f7a63f178/packages/medusa/src/interfaces/transaction-base-service.ts#L13)
+[packages/medusa/src/interfaces/transaction-base-service.ts:13](https://github.com/medusajs/medusa/blob/0b0d50b47/packages/medusa/src/interfaces/transaction-base-service.ts#L13)

@@ -18,11 +18,15 @@ You can follow [MinIO’s guide to install it](https://docs.min.io/minio/baremet
 
 After installing it, make sure MinIO is always running when your Medusa server is running. It’s recommended that you set up an alias to quickly start the MinIO server as instructed at the end of the installation guides in MinIO.
 
-:::warning
+### Change MinIO port
 
 In MinIO’s documentation, port `9000` is used for the address of the MinIO server. However, this collides with the port for the Medusa server. You must change the port for MinIO to another one (for example, port `9001`).
 
-:::
+After setting up and installing MinIO on your system/sub-system, you can run the following command to change MinIO port to `9001` (or any other available port) instead of `9000` to avoid the port clash:
+
+```bash
+minio server ~/minio --console-address :9090 --address :9001
+```
 
 ### Create a MinIO bucket
 
@@ -117,27 +121,29 @@ Run your Medusa server alongside the [Medusa Admin](../admin/quickstart.md) to t
 
 ![Image Uploaded on Admin](https://i.imgur.com/alabX2i.png)
 
-## Additional Configuration for Exports
+## Private Buckets
 
-Medusa v1.3.3 introduced the Export API. For example, you can now export your products from the Medusa Admin on the Products page.
+### Handle Exports
 
-![Export button in Products page in Medusa Admin](https://i.imgur.com/uyK4id8.png)
+Medusa provides export functionalities including exporting products and orders. For exports to work, you must [set up a private bucket](#create-private-bucket).
 
-:::note
+### Handle Imports
 
-Exports require using Redis to handle the event queue, and using PostgreSQL for the database. If you don’t use Redis or PostgreSQL, you can follow [this documentation to install](../tutorial/0-set-up-your-development-environment.mdx#postgresql) and then [configure them on your Medusa server](../usage/configurations.md#postgresql-configurations).
+Medusa provides import functionalities including importing products. For imports to work, you must [set the private bucket](#add-private-bucket-environment-variable) to be the same as the public bucket.
 
-:::
+### Create Private Bucket
 
-When using MinIO, you must create a private bucket that will store these product exports. To do that, follow along the [steps mentioned earlier to create a bucket](#create-a-minio-bucket), but keep Access Policy set to private.
+To create a private bucket, follow along the [steps mentioned earlier](#create-a-minio-bucket), but keep Access Policy set to private.
 
-Then, add the following environment variable on your Medusa server:
+### Add Private Bucket Environment Variable
+
+Add the following environment variable on your Medusa server:
 
 ```bash
 MINIO_PRIVATE_BUCKET=exports
 ```
 
-Finally, add a new option to the plugin’s options in `medusa-config.js`:
+Then, add a new option to the plugin’s options in `medusa-config.js`:
 
 ```jsx
 {
@@ -148,16 +154,6 @@ Finally, add a new option to the plugin’s options in `medusa-config.js`:
     },
 },
 ```
-
-If you start your Medusa server now and click on Export Products on the Medusa admin, the export will run in the background. When ready, it should be available for download.
-
-![Export is available for download on the Medusa Admin](https://i.imgur.com/Xc61Wg1.png)
-
-:::tip
-
-If you face any errors, make sure you have the latest version of the plugin installed.
-
-:::
 
 ### Use Different Secret and Access Keys
 
@@ -207,6 +203,6 @@ module.exports = {
 
 Where `127.0.0.1` is the domain of your local MinIO server.
 
-## What’s Next 🚀
+## What’s Next
 
 - Check out [more plugins](https://github.com/medusajs/medusa/tree/master/packages) you can add to your store.

@@ -4,15 +4,14 @@ const fs = require("fs")
 const OAS = require("oas-normalize")
 const swaggerInline = require("swagger-inline")
 const { exec } = require("child_process");
-const { exit } = require("process");
 
 const isDryRun = process.argv.indexOf('--dry-run') !== -1;
 
 // Storefront API
 swaggerInline(
-  ["./packages/medusa/src/models", "./packages/medusa/src/api/routes/store"],
+  ["./packages/medusa/src/models", "./packages/medusa/src/api/middlewares" , "./packages/medusa/src/api/routes/store"],
   {
-    base: "./docs/api/store-spec3-base.json",
+    base: "./docs/api/store-spec3-base.yaml",
   }
 ).then((gen) => {
   const oas = new OAS(gen)
@@ -29,11 +28,16 @@ swaggerInline(
       process.exit(1)
     })
 })
+.catch((err) => {
+  console.log("Error in store")
+  console.error(err)
+  process.exit(1)
+});
 
 swaggerInline(
-  ["./packages/medusa/src/models", "./packages/medusa/src/api/routes/store"],
+  ["./packages/medusa/src/models", "./packages/medusa/src/api/middlewares" , "./packages/medusa/src/api/routes/store"],
   {
-    base: "./docs/api/store-spec3-base.json",
+    base: "./docs/api/store-spec3-base.yaml",
     format: "yaml",
   }
 ).then((gen) => {
@@ -49,12 +53,17 @@ swaggerInline(
     console.log('No errors occurred while generating Store API Reference');
   }
 })
+.catch((err) => {
+  console.log("Error in store")
+  console.error(err)
+  process.exit(1)
+})
 
 // Admin API
 swaggerInline(
-  ["./packages/medusa/src/models", "./packages/medusa/src/api/routes/admin"],
+  ["./packages/medusa/src/models", "./packages/medusa/src/api/middlewares" , "./packages/medusa/src/api/routes/admin"],
   {
-    base: "./docs/api/admin-spec3-base.json",
+    base: "./docs/api/admin-spec3-base.yaml",
   }
 ).then((gen) => {
   const oas = new OAS(gen)
@@ -71,11 +80,16 @@ swaggerInline(
       process.exit(1)
     })
 })
+.catch((err) => {
+  console.log("Error in admin")
+  console.error(err)
+  process.exit(1)
+})
 
 swaggerInline(
-  ["./packages/medusa/src/models", "./packages/medusa/src/api/routes/admin"],
+  ["./packages/medusa/src/models", "./packages/medusa/src/api/middlewares" , "./packages/medusa/src/api/routes/admin"],
   {
-    base: "./docs/api/admin-spec3-base.json",
+    base: "./docs/api/admin-spec3-base.yaml",
     format: "yaml",
   }
 ).then((gen) => {
@@ -91,4 +105,9 @@ swaggerInline(
   } else {
     console.log('No errors occurred while generating Admin API Reference');
   }
+})
+.catch((err) => {
+  console.log("Error in admin")
+  console.error(err)
+  process.exit(1)
 })
